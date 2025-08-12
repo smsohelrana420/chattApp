@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUp = () => {
+  const auth=getAuth()
   let [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -32,7 +34,26 @@ const SignUp = () => {
     else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userInfo.email)) {
       toast.error("Invalid Email address")
     }else{
-      console.log(userInfo);
+      createUserWithEmailAndPassword(auth, userInfo.email,userInfo.password)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          // ...
+          console.log(user)
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          if(errorCode.includes("auth/email-already-in-use")){
+            toast.error("Email already in use")
+            setUserInfo({
+              name:"",
+              email:"",
+              password:""
+            })
+          }
+        });;
       
     }
   };
@@ -55,6 +76,7 @@ const SignUp = () => {
                 </label>
                 <div className="relative flex items-center">
                   <input
+                  value={userInfo.name}
                     onChange={handlename}
                     name="username"
                     type="text"
@@ -83,6 +105,7 @@ const SignUp = () => {
                 </label>
                 <div className="relative flex items-center">
                   <input
+                  value={userInfo.email}
                     onChange={handlmail}
                     name="text"
                     type="text"
@@ -98,6 +121,7 @@ const SignUp = () => {
                 </label>
                 <div className="relative flex items-center">
                   <input
+                   value={userInfo.password}
                     onChange={handlePass}
                     name="password"
                     type="password"
