@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router";
 
 const Login = () => {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 font-poppins">
       <div className="min-h-screen flex flex-col items-center justify-center py-6 px-4">
         <div className="max-w-[480px] w-full">
-          
+          <h1 className="w-40 mb-8 mx-auto font-bold text-xl block">
+            Chatting App
+          </h1>
           <div className="p-6 sm:p-8 rounded-2xl bg-white border border-gray-200 shadow-sm">
             <h1 className="text-slate-900 text-center text-3xl font-semibold">
               Sign in
@@ -98,12 +101,13 @@ const Login = () => {
               </div>
               <p className="text-slate-900 text-sm !mt-6 text-center">
                 Don't have an account?{" "}
-                <a
+                <Link 
+                to={"/signup"}
                   href="javascript:void(0);"
                   className="text-blue-600 hover:underline ml-1 whitespace-nowrap font-semibold"
                 >
-                  Register here
-                </a>
+                  Sign Up
+                </Link>
               </p>
             </form>
           </div>
@@ -111,6 +115,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Login
+export default Login;
